@@ -1,0 +1,17 @@
+{
+  "name": "마켓 브리핑 · 미증시 & 가상화폐",
+  "short_name": "마켓브리핑",
+  "description": "매일 아침 업데이트되는 미국 증시 · 가상화폐 데이터 브리핑",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a0e14",
+  "theme_color": "#0a0e14",
+  "lang": "ko",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

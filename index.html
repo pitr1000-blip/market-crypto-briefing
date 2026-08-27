@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>마켓 브리핑 · 미증시 &amp; 가상화폐</title>
+<meta name="description" content="매일 갱신되는 미국 증시 · 가상화폐 데이터 브리핑">
+<meta name="theme-color" content="#0a0e14">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/icons/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="마켓브리핑">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0e14;
+    --bg-elevated:#0d121a;
+    --panel:#121822;
+    --panel-2:#161e2b;
+    --border:#212b3a;
+    --border-soft:#1a222f;
+    --text:#e9edf5;
+    --text-dim:#93a0b4;
+    --text-faint:#5a6478;
+    --accent:#35d0c4;
+    --accent-soft:rgba(53,208,196,0.12);
+    --gold:#f0b90b;
+    --gold-soft:rgba(240,185,11,0.12);
+    --up:#2fd66c;
+    --up-soft:rgba(47,214,108,0.12);
+    --down:#ff5470;
+    --down-soft:rgba(255,84,112,0.12);
+    --radius:14px;
+    --font-display:'Space Grotesk',system-ui,sans-serif;
+    --font-mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,monospace;
+    --font-body:'Inter',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{background:var(--bg);}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    -webkit-font-smoothing:antialiased;
+    font-variant-numeric:tabular-nums;
+    font-feature-settings:"tnum" 1;
+    padding-bottom:48px;
+  }
+  a{color:inherit;}
+  .num{font-family:var(--font-mono);font-variant-numeric:tabular-nums;}
+  .up{color:var(--up);}
+  .down{color:var(--down);}
+  .flat{color:var(--text-dim);}
+
+  /* ---------- Header ---------- */
+  header.top{
+    position:sticky;top:0;z-index:20;
+    background:rgba(10,14,20,0.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border-soft);
+    padding:14px 20px 12px;
+  }
+  .top-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;max-width:760px;margin:0 auto;}
+  .brand{display:flex;align-items:baseline;gap:8px;}
+  .brand .mark{color:var(--accent);font-family:var(--font-mono);font-size:13px;letter-spacing:0.08em;}
+  .brand h1{font-family:var(--font-display);font-size:17px;font-weight:700;margin:0;letter-spacing:-0.01em;}
+  .stamp{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);text-align:right;line-height:1.5;}
+  .live-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--up);margin-right:5px;box-shadow:0 0 0 0 rgba(47,214,108,0.6);animation:pulse 2s infinite;}
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(47,214,108,0.5);}
+    70%{box-shadow:0 0 0 6px rgba(47,214,108,0);}
+    100%{box-shadow:0 0 0 0 rgba(47,214,108,0);}
+  }
+  @media (prefers-reduced-motion:reduce){.live-dot{animation:none;}}
+
+  /* ---------- Ticker ---------- */
+  .ticker-wrap{
+    overflow:hidden;
+    background:var(--bg-elevated);
+    border-bottom:1px solid var(--border-soft);
+    white-space:nowrap;
+  }
+  .ticker{
+    display:inline-flex;gap:28px;
+    padding:8px 20px;
+    animation:scroll-left 38s linear infinite;
+  }
+  .ticker span.item{font-family:var(--font-mono);font-size:12px;color:var(--text-dim);white-space:nowrap;}
+  .ticker span.item b{color:var(--text);font-weight:500;margin-right:6px;}
+  @keyframes scroll-left{
+    0%{transform:translateX(0);}
+    100%{transform:translateX(-50%);}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .ticker{animation:none;overflow-x:auto;}
+  }
+
+  /* ---------- Layout ---------- */
+  main{max-width:760px;margin:0 auto;padding:0 16px;}
+  section.part{margin-top:34px;}
+  .part-head{display:flex;align-items:center;gap:10px;margin:0 0 14px;padding:0 2px;}
+  .part-head .tag{
+    font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.1em;
+    color:var(--bg);background:var(--accent);border-radius:5px;padding:3px 8px;
+  }
+  .part-head.crypto .tag{background:var(--gold);}
+  .part-head h2{font-family:var(--font-display);font-size:20px;font-weight:700;margin:0;letter-spacing:-0.01em;}
+  .part-head .rule{flex:1;height:1px;background:var(--border);}
+
+  .block-title{
+    font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;color:var(--text-faint);
+    text-transform:uppercase;margin:26px 2px 10px;
+  }
+
+  /* ---------- Index / Crypto cards ---------- */
+  .grid-4{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+  @media (min-width:560px){.grid-4{grid-template-columns:repeat(4,1fr);}}
+  .idx-card{
+    background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+    padding:14px 14px 12px;position:relative;overflow:hidden;
+  }
+  .idx-card::before{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+  }
+  .idx-card.up::before{background:var(--up);}
+  .idx-card.down::before{background:var(--down);}
+  .idx-name{font-size:12px;color:var(--text-dim);margin-bottom:6px;}
+  .idx-price{font-family:var(--font-mono);font-size:19px;font-weight:600;}
+  .idx-chg{font-family:var(--font-mono);font-size:12.5px;margin-top:5px;display:flex;justify-content:space-between;}
+  .idx-ytd{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);margin-top:7px;padding-top:7px;border-top:1px dashed var(--border-soft);}
+
+  /* ---------- Stat tiles (macro / crypto flow) ---------- */
+  .grid-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+  @media (min-width:560px){.grid-stats{grid-template-columns:repeat(5,1fr);}}
+  .stat-tile{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px 12px;}
+  .stat-tile .label{font-size:11px;color:var(--text-faint);margin-bottom:5px;}
+  .stat-tile .val{font-family:var(--font-mono);font-size:15px;font-weight:600;}
+  .stat-tile .sub{font-family:var(--font-mono);font-size:11px;color:var(--text-dim);margin-top:3px;}
+
+  /* ---------- Panels / text blocks ---------- */
+  .panel{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:16px 16px;}
+  .panel + .panel{margin-top:10px;}
+
+  .sector-list{display:flex;flex-direction:column;gap:0;}
+  .sector-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border-soft);}
+  .sector-row:last-child{border-bottom:none;}
+  .sector-name{flex:0 0 128px;font-size:12.5px;color:var(--text-dim);}
+  .sector-bar-track{flex:1;height:6px;background:var(--border-soft);border-radius:4px;overflow:hidden;position:relative;}
+  .sector-bar{position:absolute;top:0;bottom:0;border-radius:4px;}
+  .sector-bar.up{background:var(--up);left:50%;}
+  .sector-bar.down{background:var(--down);right:50%;}
+  .sector-val{flex:0 0 52px;text-align:right;font-family:var(--font-mono);font-size:12.5px;}
+
+  .mover{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border-soft);}
+  .mover:last-child{border-bottom:none;}
+  .mover .pill{flex:0 0 auto;font-family:var(--font-mono);font-size:11px;font-weight:600;border-radius:6px;padding:2px 7px;height:fit-content;margin-top:2px;}
+  .mover .pill.up{background:var(--up-soft);color:var(--up);}
+  .mover .pill.down{background:var(--down-soft);color:var(--down);}
+  .mover .body b{font-size:13.5px;}
+  .mover .body .chg{font-family:var(--font-mono);font-size:12.5px;margin-left:6px;}
+  .mover .body p{margin:4px 0 0;font-size:12.5px;color:var(--text-dim);line-height:1.55;}
+
+  .quote-box{
+    border-left:3px solid var(--accent);padding:2px 0 2px 14px;margin:0;
+    font-size:13.5px;color:var(--text-dim);line-height:1.7;
+  }
+  .quote-box b{color:var(--text);}
+
+  .event-list{list-style:none;margin:0;padding:0;}
+  .event-list li{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border-soft);font-size:13px;}
+  .event-list li:last-child{border-bottom:none;}
+  .event-list .time{flex:0 0 76px;font-family:var(--font-mono);color:var(--text-faint);font-size:12px;}
+  .event-list .name{color:var(--text);}
+  .event-list .imp{margin-left:auto;font-family:var(--font-mono);font-size:10.5px;color:var(--text-faint);white-space:nowrap;}
+
+  .holiday-note{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-dim);margin-top:12px;}
+  .holiday-dot{width:7px;height:7px;border-radius:50%;background:var(--up);}
+
+  /* ---------- Levels (BTC support/resistance) ---------- */
+  .levels{display:flex;flex-direction:column;gap:6px;}
+  .level-row{display:grid;grid-template-columns:70px 1fr auto;align-items:center;gap:10px;}
+  .level-row .lv-label{font-size:11px;color:var(--text-faint);font-family:var(--font-mono);}
+  .level-row .lv-bar-track{height:8px;background:var(--border-soft);border-radius:4px;position:relative;}
+  .level-row .lv-bar{position:absolute;top:0;bottom:0;left:0;border-radius:4px;}
+  .level-row .lv-price{font-family:var(--font-mono);font-size:13px;font-weight:600;}
+  .lv-resistance .lv-bar{background:linear-gradient(90deg,var(--down),transparent);}
+  .lv-current .lv-bar{background:var(--accent);}
+  .lv-support .lv-bar{background:linear-gradient(90deg,var(--up),transparent);}
+
+  /* ---------- Deep dive cards ---------- */
+  .deep-grid{display:flex;flex-direction:column;gap:10px;}
+  .deep-card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:16px 16px;}
+  .deep-card .dh{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+  .deep-card .dh .ic{font-family:var(--font-mono);font-size:11px;color:var(--bg);background:var(--gold);border-radius:5px;padding:2px 7px;font-weight:700;}
+  .deep-card h3{font-family:var(--font-display);font-size:15px;margin:0;font-weight:600;}
+  .deep-card p{margin:0;font-size:13px;line-height:1.75;color:var(--text-dim);}
+
+  /* ---------- Disclaimer / footer ---------- */
+  .disclaimer{
+    margin-top:38px;border:1px solid rgba(255,84,112,0.35);background:rgba(255,84,112,0.06);
+    border-radius:var(--radius);padding:16px;font-size:12px;line-height:1.7;color:var(--text-dim);
+  }
+  .disclaimer .dt{font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;color:var(--down);margin-bottom:6px;font-weight:600;}
+  footer.site-footer{margin-top:22px;text-align:center;font-family:var(--font-mono);font-size:11px;color:var(--text-faint);padding:0 8px;}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-row">
+    <div class="brand">
+      <span class="mark">$&gt;</span>
+      <h1>마켓 · 크립토 브리핑</h1>
+    </div>
+    <div class="stamp">
+      <div><span class="live-dot"></span>LIVE DATA</div>
+      <div id="stamp-date">2026-08-27 05:30 KST</div>
+    </div>
+  </div>
+</header>
+
+<div class="ticker-wrap" aria-hidden="true">
+  <div class="ticker" id="ticker">
+    <span class="item"><b>DOW</b><span class="num up">53,577.40 ▲0.30%</span></span>
+    <span class="item"><b>NASDAQ</b><span class="num up">26,151.30 ▲0.70%</span></span>
+    <span class="item"><b>S&amp;P500</b><span class="num up">7,677.24 ▲0.32%</span></span>
+    <span class="item"><b>RUSSELL2000</b><span class="num up">3,010.02 ▲0.50%</span></span>
+    <span class="item"><b>US10Y</b><span class="num flat">4.665%</span></span>
+    <span class="item"><b>WTI</b><span class="num down">$81.90 ▼</span></span>
+    <span class="item"><b>GOLD</b><span class="num up">$4,661.5</span></span>
+    <span class="item"><b>BTC</b><span class="num up">$79,027 ▲0.4%</span></span>
+    <span class="item"><b>ETH</b><span class="num up">$2,506 ▲2.58%</span></span>
+    <span class="item"><b>SOL</b><span class="num up">$102.17 ▲5.76%</span></span>
+    <span class="item"><b>XRP</b><span class="num down">$1.4224 ▼0.76%</span></span>
+    <!-- duplicate for seamless loop -->
+    <span class="item"><b>DOW</b><span class="num up">53,577.40 ▲0.30%</span></span>
+    <span class="item"><b>NASDAQ</b><span class="num up">26,151.30 ▲0.70%</span></span>
+    <span class="item"><b>S&amp;P500</b><span class="num up">7,677.24 ▲0.32%</span></span>
+    <span class="item"><b>RUSSELL2000</b><span class="num up">3,010.02 ▲0.50%</span></span>
+    <span class="item"><b>US10Y</b><span class="num flat">4.665%</span></span>
+    <span class="item"><b>WTI</b><span class="num down">$81.90 ▼</span></span>
+    <span class="item"><b>GOLD</b><span class="num up">$4,661.5</span></span>
+    <span class="item"><b>BTC</b><span class="num up">$79,027 ▲0.4%</span></span>
+    <span class="item"><b>ETH</b><span class="num up">$2,506 ▲2.58%</span></span>
+    <span class="item"><b>SOL</b><span class="num up">$102.17 ▲5.76%</span></span>
+    <span class="item"><b>XRP</b><span class="num down">$1.4224 ▼0.76%</span></span>
+  </div>
+</div>
+
+<main>
+
+<!-- ============ PART 1 : 미국증시 ============ -->
+<section class="part" id="part-us">
+  <div class="part-head">
+    <span class="tag">PART 1</span>
+    <h2>미국 증시</h2>
+    <span class="rule"></span>
+  </div>
+  <p style="font-size:12px;color:var(--text-faint);margin:-4px 2px 16px;">2026년 8월 26일(수) 정규장 마감 기준</p>
+
+  <div class="grid-4">
+    <div class="idx-card up">
+      <div class="idx-name">다우존스</div>
+      <div class="idx-price num">53,577.40</div>
+      <div class="idx-chg"><span class="up num">▲160.24</span><span class="up num">+0.30%</span></div>
+      <div class="idx-ytd">YTD <span class="up">+14.1%</span> · 3거래일 연속 상승</div>
+    </div>
+    <div class="idx-card up">
+      <div class="idx-name">나스닥종합</div>
+      <div class="idx-price num">26,151.30</div>
+      <div class="idx-chg"><span class="up num">▲171.11</span><span class="up num">+0.70%</span></div>
+      <div class="idx-ytd">YTD <span class="up">+16.8%</span> · 엔비디아 실적 대기 속 강세</div>
+    </div>
+    <div class="idx-card up">
+      <div class="idx-name">S&amp;P500</div>
+      <div class="idx-price num">7,677.24</div>
+      <div class="idx-chg"><span class="up num">▲24.38</span><span class="up num">+0.32%</span></div>
+      <div class="idx-ytd">YTD <span class="up">+12.9%</span></div>
+    </div>
+    <div class="idx-card up">
+      <div class="idx-name">러셀2000</div>
+      <div class="idx-price num">3,010.02</div>
+      <div class="idx-chg"><span class="up num">▲15.0</span><span class="up num">+0.50%</span></div>
+      <div class="idx-ytd">YTD <span class="up">+23.0%</span> · 소형주 랠리 지속</div>
+    </div>
+  </div>
+
+  <div class="block-title">섹터별 등락</div>
+  <div class="panel">
+    <div class="sector-list">
+      <div class="sector-row">
+        <div class="sector-name">IT (최고)</div>
+        <div class="sector-bar-track"><div class="sector-bar up" style="width:20%"></div></div>
+        <div class="sector-val up">+1.03%</div>
+      </div>
+      <div class="sector-row">
+        <div class="sector-name">산업재 · 금융</div>
+        <div class="sector-bar-track"><div class="sector-bar up" style="width:12%"></div></div>
+        <div class="sector-val up">강세</div>
+      </div>
+      <div class="sector-row">
+        <div class="sector-name">커뮤니케이션 · 필수소비재</div>
+        <div class="sector-bar-track"><div class="sector-bar up" style="width:6%"></div></div>
+        <div class="sector-val up">소폭 강세</div>
+      </div>
+      <div class="sector-row">
+        <div class="sector-name">헬스케어 · 소재</div>
+        <div class="sector-bar-track"><div class="sector-bar down" style="width:8%"></div></div>
+        <div class="sector-val down">약세</div>
+      </div>
+      <div class="sector-row">
+        <div class="sector-name">에너지 (최저)</div>
+        <div class="sector-bar-track"><div class="sector-bar down" style="width:22%"></div></div>
+        <div class="sector-val down">-1.25%</div>
+      </div>
+    </div>
+    <p style="font-size:11.5px;color:var(--text-faint);margin:12px 2px 0;">11개 섹터 중 8개 상승 · 3개 하락 — 국제 유가 하락이 에너지 섹터의 발목을 잡음</p>
+  </div>
+
+  <div class="block-title">주요 상승 · 하락 종목</div>
+  <div class="panel">
+    <div class="mover">
+      <span class="pill up">상승</span>
+      <div class="body"><b>Abercrombie &amp; Fitch (ANF)</b><span class="chg up num">+40%</span>
+        <p>2분기 실적이 시장 예상치를 큰 폭으로 상회하고 연간 가이던스를 상향하면서 폭등. 소매 업종 내 대표적인 실적 서프라이즈 사례로 부각됨.</p>
+      </div>
+    </div>
+    <div class="mover">
+      <span class="pill up">상승(시간외)</span>
+      <div class="body"><b>NVIDIA (NVDA)</b><span class="chg up num">프리마켓 강세</span>
+        <p>정규장에서는 실적 발표를 앞두고 1%대 조정을 받았으나, 장 마감 후 발표된 2분기 실적에서 매출 962억 달러(전년比 +106%), EPS 2.22달러(예상 2.09달러 상회)를 기록. 3분기 매출 가이던스 1,080억 달러(±2%, 전년比 +89%)를 제시하며 AI 수요 둔화 우려를 잠재웠고, 나스닥100 선물이 목요일 프리마켓에서 약 1% 상승.</p>
+      </div>
+    </div>
+    <div class="mover">
+      <span class="pill down">하락</span>
+      <div class="body"><b>에너지 업종 전반</b><span class="chg down num">-1%대</span>
+        <p>WTI·브렌트유 동반 하락 여파로 에너지 관련주가 섹터 최하위로 밀림. Meta 관련 법원 판결 이슈도 커뮤니케이션·빅테크 일부 종목에 부담 요인으로 작용.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="block-title">채권 · 원자재 · 달러</div>
+  <div class="grid-stats">
+    <div class="stat-tile"><div class="label">美 10년물 금리</div><div class="val num">4.665%</div><div class="sub">전고점 4.75%↓</div></div>
+    <div class="stat-tile"><div class="label">WTI</div><div class="val num down">$81.90</div><div class="sub">유가 약세</div></div>
+    <div class="stat-tile"><div class="label">Brent</div><div class="val num down">$86.62</div><div class="sub">유가 약세</div></div>
+    <div class="stat-tile"><div class="label">달러인덱스</div><div class="val num">99.06</div><div class="sub">보합권</div></div>
+    <div class="stat-tile"><div class="label">금(Gold)</div><div class="val num up">$4,661.5</div><div class="sub">사상 최고권</div></div>
+  </div>
+
+  <div class="block-title">연준 코멘트</div>
+  <div class="panel">
+    <p class="quote-box">7월 <b>PCE 물가지수</b>는 전월비 +0.2%, 전년비 +3.7%로 여전히 끈적한 인플레이션을 시사. 파월 의장은 2026년 <b>추가 금리 인하는 1회에 그칠 것</b>이라는 전망을 재확인했으며, 최근 발표된 7월 비농업 고용·소매판매 지표가 예상보다 부진하면서 시장 일각에서는 <b>완화 시점이 2027년 초로 지연</b>될 수 있다는 관측도 제기되고 있음.</p>
+  </div>
+
+  <div class="block-title">오늘의 주요 일정</div>
+  <div class="panel">
+    <ul class="event-list">
+      <li><span class="time">08:30</span><span class="name">신규 실업수당 청구건수 (Initial Jobless Claims)</span><span class="imp">HIGH</span></li>
+      <li><span class="time">08:30</span><span class="name">7월 도매재고 (예비치)</span><span class="imp">MED</span></li>
+      <li><span class="time">장중</span><span class="name">전일 발표 엔비디아 실적 후속 반응 · 반도체·AI 밸류체인 주가 흐름</span><span class="imp">HIGH</span></li>
+    </ul>
+    <div class="holiday-note"><span class="holiday-dot"></span>오늘은 정규 거래일 — 별도 휴장 없음</div>
+  </div>
+</section>
+
+<!-- ============ PART 2 : 가상화폐 ============ -->
+<section class="part" id="part-crypto">
+  <div class="part-head crypto">
+    <span class="tag">PART 2</span>
+    <h2>가상화폐</h2>
+    <span class="rule"></span>
+  </div>
+  <p style="font-size:12px;color:var(--text-faint);margin:-4px 2px 16px;">2026년 8월 27일 오전 기준 시세</p>
+
+  <div class="grid-4">
+    <div class="idx-card up">
+      <div class="idx-name">BTC · 비트코인</div>
+      <div class="idx-price num">$79,027</div>
+      <div class="idx-chg"><span class="up num">24H +0.4%</span></div>
+    </div>
+    <div class="idx-card up">
+      <div class="idx-name">ETH · 이더리움</div>
+      <div class="idx-price num">$2,506</div>
+      <div class="idx-chg"><span class="up num">24H +2.58%</span></div>
+    </div>
+    <div class="idx-card up">
+      <div class="idx-name">SOL · 솔라나</div>
+      <div class="idx-price num">$102.17</div>
+      <div class="idx-chg"><span class="up num">24H +5.76%</span></div>
+    </div>
+    <div class="idx-card down">
+      <div class="idx-name">XRP · 리플</div>
+      <div class="idx-price num">$1.4224</div>
+      <div class="idx-chg"><span class="down num">24H -0.76%</span></div>
+    </div>
+  </div>
+
+  <div class="block-title">수급 · 파생 지표</div>
+  <div class="grid-stats">
+    <div class="stat-tile"><div class="label">현물 ETF 8월 누적 순유입</div><div class="val num up">+$23.8억</div><div class="sub">2026년 최대 월간</div></div>
+    <div class="stat-tile"><div class="label">BTC 미결제약정(OI)</div><div class="val num">$51.4억</div><div class="sub">30일 +7.3%</div></div>
+    <div class="stat-tile"><div class="label">펀딩레이트</div><div class="val num up">플러스 우세</div><div class="sub">최근 90회 중 88회 양(+)</div></div>
+    <div class="stat-tile"><div class="label">24H 청산 규모</div><div class="val num">$94.0M</div><div class="sub">롱 $86.0M · 숏 $8.9M</div></div>
+    <div class="stat-tile"><div class="label">RSI(BTC)</div><div class="val num down">83</div><div class="sub">과열 구간</div></div>
+  </div>
+
+  <div class="block-title">BTC 지지 · 저항선</div>
+  <div class="panel">
+    <div class="levels">
+      <div class="level-row lv-resistance">
+        <div class="lv-label">저항</div>
+        <div class="lv-bar-track"><div class="lv-bar" style="width:100%"></div></div>
+        <div class="lv-price down">$81,500</div>
+      </div>
+      <div class="level-row lv-current">
+        <div class="lv-label">현재가</div>
+        <div class="lv-bar-track"><div class="lv-bar" style="width:97%"></div></div>
+        <div class="lv-price">$79,027</div>
+      </div>
+      <div class="level-row lv-support">
+        <div class="lv-label">지지 1</div>
+        <div class="lv-bar-track"><div class="lv-bar" style="width:92%"></div></div>
+        <div class="lv-price up">$75,000</div>
+      </div>
+      <div class="level-row lv-support">
+        <div class="lv-label">지지 2</div>
+        <div class="lv-bar-track"><div class="lv-bar" style="width:88%"></div></div>
+        <div class="lv-price up">$71,500</div>
+      </div>
+      <div class="level-row lv-support">
+        <div class="lv-label">지지 3</div>
+        <div class="lv-bar-track"><div class="lv-bar" style="width:84%"></div></div>
+        <div class="lv-price up">$68,500</div>
+      </div>
+    </div>
+    <p style="font-size:11.5px;color:var(--text-faint);margin:12px 2px 0;">RSI 83까지 상승하며 단기 과열 신호가 나오고 있으나 50일 이평선 위에서 상승 추세는 유지 중. 단기 목표는 $80,000~$85,000, 중기(1~3개월)로는 $90,000~$100,000 도달 가능성이 거론됨.</p>
+  </div>
+
+  <div class="block-title">이슈 심층분석</div>
+  <div class="deep-grid">
+    <div class="deep-card">
+      <div class="dh"><span class="ic">규제·입법</span><h3>CLARITY 법안, 8월 완화 데드라인 넘기며 표류</h3></div>
+      <p>미 상원은 8월 8일 클로처(토론종결) 동의안을 제출했지만 아직 본회의 표결로 이어지지 못했고, 8월 10일 휴회 전 처리 목표도 결국 무산되면서 법안 처리가 2027년으로 미뤄질 위험이 커지고 있다. CLARITY 법안은 어떤 토큰이 증권이고 상품인지, 거래소·브로커·딜러를 어느 규제기관이 감독할지를 규정하는 시장구조 법안이라는 점에서 업계의 관심이 크다. 최대 쟁점은 스테이블코인 보상(리워드) 조항으로, 은행권은 GENIUS법의 이자 지급형 스테이블코인 금지를 거래소의 '리워드' 지급까지 확장해야 한다는 입장인 반면 크립토 업계는 리워드 존치를 요구하며 팽팽히 맞서고 있다. 한편 SEC는 토큰 발행 규칙을 명확히 하는 최초의 맞춤형 크립토 자금조달 프레임워크를 제안하며 규제 공백을 메우려는 움직임을 보였다. 설령 법안이 조기에 부활하더라도 등록·적격성 인증 등 실제 운영 규정은 규제당국의 세부 규칙 제정 시간이 필요해 2027년 말에나 시행될 전망이다.</p>
+    </div>
+    <div class="deep-card">
+      <div class="dh"><span class="ic">기관·ETF</span><h3>8월 ETF 자금 '2026년 최대 유입'…기관 매수세 회복</h3></div>
+      <p>미국 현물 비트코인 ETF는 8월 21일 종료 주 기준 19.2억 달러 순유입을 기록해 2025년 10월 이후 최고 주간 실적을 냈고, 이 중 블랙록 IBIT가 5거래일 연속 13.3억 달러를 빨아들이며 흐름을 주도했다. 8월 전체로는 누적 23.8억 달러 순유입으로 2026년 들어 가장 강한 한 달을 기록 중인데, 이는 5~6월의 대규모 유출과 7월의 등락을 딛고 대형 기관 자금이 현 가격대를 '매력적인 진입 구간'으로 재평가하고 있음을 시사한다. 같은 기간 솔라나 현물 ETF(비트와이즈)도 누적 유입 10억 달러를 돌파했고, 피델리티는 크립토 펀드에 대해 100% 스테이킹을 승인하며 온체인 수익을 제도권 상품에 편입시키는 흐름에 힘을 보탰다. 국채 바이백 프로그램 확대(20억→40억 달러)에 따른 숏스퀴즈까지 겹치며 ETF 수급과 매크로 이벤트가 동시에 가격을 밀어올리는 모습이다.</p>
+    </div>
+    <div class="deep-card">
+      <div class="dh"><span class="ic">체인 생태계</span><h3>이더리움 스테이킹 사상 최대 vs 솔라나 인프라 리스크 노출</h3></div>
+      <p>이더리움 네트워크의 스테이킹 물량은 4,190만 ETH(전체 공급량의 34~35%)로 사상 최대치를 기록했으며, 검증자 발행량 소각 비율을 스테이킹 비율에 연동해 높이는 EIP-8363 초안이 논의되며 과도한 스테이킹 쏠림을 억제하려는 설계 변경이 화두로 떠오르고 있다. 솔라나는 하루 처리량이 1억 6,700만 건으로 이더리움(270만 건)을 압도하고 활성 주소 수도 3.5배 이상 많아 처리 성능 면에서 격차를 벌리고 있으며, 전체 공급량의 68.8%가 스테이킹돼 약 7% 수준의 수익률을 제공하고 있다. 다만 지난 8월 12일 인프라 업체 테라스위치의 라우팅 장애로 전체 스테이킹 물량의 28.83%가 약 33분간 오프라인 상태에 놓이는 사고가 발생해, 성능 우위 이면의 인프라 집중 리스크가 새삼 부각됐다. 두 체인 모두 기관 스테이킹 상품(솔라나 ETF, 이더리움 스테이킹형 상품)으로의 자금 유입이 늘고 있어, 온체인 수익률 자체가 하나의 투자 테마로 자리잡는 모습이다.</p>
+    </div>
+    <div class="deep-card">
+      <div class="dh"><span class="ic">매크로 연동</span><h3>'재정 공포 트레이드' — 美 부채 우려가 비트코인 랠리를 견인</h3></div>
+      <p>비트코인이 8만 달러 문턱까지 오른 배경에는 재닛 옐런식 국채 발행 부담이 아닌 베선트 재무장관의 장기채 바이백 확대 발언이 촉발한 숏스퀴즈와, 2026년 최대 규모의 ETF 자금 유입이 동시에 맞물린 영향이 크다. 시장 일각에서는 이를 '재정 공포 트레이드(fiscal fear trade)'로 부르는데, 미국의 재정적자·부채 부담 우려가 커질수록 대체 가치저장 수단으로서 비트코인 수요가 늘어난다는 서사가 힘을 얻고 있다. 동시에 연준이 2026년 추가 인하를 1회로 제한하고 시장 일부에서는 인하 시점이 2027년 초로 밀릴 수 있다고 보면서, 금리·달러 경로에 대한 눈치보기가 비트코인 변동성을 키우는 요인으로 작용 중이다. 실제로 7월 PCE 발표 직후 장중 단기 급락이 나왔다가 곧바로 매수세가 유입돼 반등한 것도, 매크로 이벤트에 대한 민감도가 여전히 높다는 점을 보여준다. 채권시장 스트레스, 재정정책, 연준 경로라는 세 축이 당분간 비트코인의 단기 방향성을 좌우할 핵심 변수로 꼽힌다.</p>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    <div class="dt">⚠ DISCLAIMER</div>
+    본 리포트는 정보 제공 목적으로 작성되었으며 투자자문이 아닙니다.<br>
+    가상화폐는 원금 전액 손실이 가능한 고위험 자산입니다.
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  MARKET · CRYPTO BRIEFING &middot; 매일 자동 갱신 &middot; <span id="gen-time">2026-08-27 05:30 KST 생성</span>
+</footer>
+
+<script>
+  // 상태바/알림 등에 쓰이는 기준 시각 표기 (표시용, 데이터 자체는 본문 텍스트가 원본)
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
+    });
+  }
+</script>
+</body>
+</html>
