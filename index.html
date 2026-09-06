@@ -84,11 +84,11 @@
     border-bottom:1px solid var(--border-soft);
     padding:14px 20px 12px;
   }
-  .top-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;max-width:760px;margin:0 auto;}
+  .top-row{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 12px;max-width:760px;margin:0 auto;}
   .brand{display:flex;align-items:baseline;gap:8px;}
-  .brand .mark{color:var(--accent);font-family:var(--font-mono);font-size:13px;letter-spacing:0.08em;}
-  .brand h1{font-family:var(--font-display);font-size:17px;font-weight:700;margin:0;letter-spacing:-0.01em;}
-  .stamp{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);text-align:right;line-height:1.5;}
+  .brand .mark{color:var(--accent);font-family:var(--font-mono);font-size:14.5px;letter-spacing:0.08em;}
+  .brand h1{font-family:var(--font-display);font-size:18.5px;font-weight:700;margin:0;letter-spacing:-0.01em;white-space:nowrap;}
+  .stamp{font-family:var(--font-mono);font-size:12.5px;color:var(--text-faint);text-align:right;line-height:1.5;}
   .live-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--up);margin-right:5px;box-shadow:0 0 0 0 rgba(47,214,108,0.6);animation:pulse 2s infinite;}
   @keyframes pulse{
     0%{box-shadow:0 0 0 0 rgba(47,214,108,0.5);}
@@ -109,7 +109,7 @@
     padding:8px 20px;
     animation:scroll-left 38s linear infinite;
   }
-  .ticker span.item{font-family:var(--font-mono);font-size:12px;color:var(--text-dim);white-space:nowrap;}
+  .ticker span.item{font-family:var(--font-mono);font-size:13.5px;color:var(--text-dim);white-space:nowrap;}
   .ticker span.item b{color:var(--text);font-weight:500;margin-right:6px;}
   @keyframes scroll-left{
     0%{transform:translateX(0);}
@@ -124,15 +124,15 @@
   section.part{margin-top:34px;}
   .part-head{display:flex;align-items:center;gap:10px;margin:0 0 14px;padding:0 2px;}
   .part-head .tag{
-    font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.1em;
+    font-family:var(--font-mono);font-size:12.5px;font-weight:600;letter-spacing:0.1em;
     color:var(--bg);background:var(--accent);border-radius:5px;padding:3px 8px;
   }
   .part-head.crypto .tag{background:var(--gold);}
-  .part-head h2{font-family:var(--font-display);font-size:20px;font-weight:700;margin:0;letter-spacing:-0.01em;}
+  .part-head h2{font-family:var(--font-display);font-size:22px;font-weight:700;margin:0;letter-spacing:-0.01em;}
   .part-head .rule{flex:1;height:1px;background:var(--border);}
 
   .block-title{
-    font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;color:var(--text-faint);
+    font-family:var(--font-mono);font-size:12.5px;letter-spacing:0.08em;color:var(--text-faint);
     text-transform:uppercase;margin:26px 2px 10px;
   }
 
@@ -148,18 +148,18 @@
   }
   .idx-card.up::before{background:var(--up);}
   .idx-card.down::before{background:var(--down);}
-  .idx-name{font-size:12px;color:var(--text-dim);margin-bottom:6px;}
-  .idx-price{font-family:var(--font-mono);font-size:19px;font-weight:600;}
-  .idx-chg{font-family:var(--font-mono);font-size:12.5px;margin-top:5px;display:flex;justify-content:space-between;}
-  .idx-ytd{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);margin-top:7px;padding-top:7px;border-top:1px dashed var(--border-soft);}
+  .idx-name{font-size:13.5px;color:var(--text-dim);margin-bottom:6px;}
+  .idx-price{font-family:var(--font-mono);font-size:21px;font-weight:600;}
+  .idx-chg{font-family:var(--font-mono);font-size:14px;margin-top:5px;display:flex;justify-content:space-between;}
+  .idx-ytd{font-family:var(--font-mono);font-size:12.5px;color:var(--text-faint);margin-top:7px;padding-top:7px;border-top:1px dashed var(--border-soft);}
 
   /* ---------- Stat tiles (macro / crypto flow) ---------- */
   .grid-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
   @media (min-width:560px){.grid-stats{grid-template-columns:repeat(5,1fr);}}
   .stat-tile{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px 12px;}
-  .stat-tile .label{font-size:11px;color:var(--text-faint);margin-bottom:5px;}
-  .stat-tile .val{font-family:var(--font-mono);font-size:15px;font-weight:600;}
-  .stat-tile .sub{font-family:var(--font-mono);font-size:11px;color:var(--text-dim);margin-top:3px;}
+  .stat-tile .label{font-size:12.5px;color:var(--text-faint);margin-bottom:5px;}
+  .stat-tile .val{font-family:var(--font-mono);font-size:16.5px;font-weight:600;}
+  .stat-tile .sub{font-family:var(--font-mono);font-size:12.5px;color:var(--text-dim);margin-top:3px;}
 
   /* ---------- Panels / text blocks ---------- */
   .panel{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:16px 16px;}
@@ -168,45 +168,45 @@
   .sector-list{display:flex;flex-direction:column;gap:0;}
   .sector-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border-soft);}
   .sector-row:last-child{border-bottom:none;}
-  .sector-name{flex:0 0 128px;font-size:12.5px;color:var(--text-dim);}
+  .sector-name{flex:0 0 128px;font-size:14px;color:var(--text-dim);}
   .sector-bar-track{flex:1;height:6px;background:var(--border-soft);border-radius:4px;overflow:hidden;position:relative;}
   .sector-bar{position:absolute;top:0;bottom:0;border-radius:4px;}
   .sector-bar.up{background:var(--up);left:50%;}
   .sector-bar.down{background:var(--down);right:50%;}
-  .sector-val{flex:0 0 52px;text-align:right;font-family:var(--font-mono);font-size:12.5px;}
+  .sector-val{flex:0 0 52px;text-align:right;font-family:var(--font-mono);font-size:14px;}
 
   .mover{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border-soft);}
   .mover:last-child{border-bottom:none;}
-  .mover .pill{flex:0 0 auto;font-family:var(--font-mono);font-size:11px;font-weight:600;border-radius:6px;padding:2px 7px;height:fit-content;margin-top:2px;}
+  .mover .pill{flex:0 0 auto;font-family:var(--font-mono);font-size:12.5px;font-weight:600;border-radius:6px;padding:2px 7px;height:fit-content;margin-top:2px;}
   .mover .pill.up{background:var(--up-soft);color:var(--up);}
   .mover .pill.down{background:var(--down-soft);color:var(--down);}
-  .mover .body b{font-size:13.5px;}
-  .mover .body .chg{font-family:var(--font-mono);font-size:12.5px;margin-left:6px;}
-  .mover .body p{margin:4px 0 0;font-size:12.5px;color:var(--text-dim);line-height:1.55;}
+  .mover .body b{font-size:15px;}
+  .mover .body .chg{font-family:var(--font-mono);font-size:14px;margin-left:6px;}
+  .mover .body p{margin:4px 0 0;font-size:14px;color:var(--text-dim);line-height:1.55;}
 
   .quote-box{
     border-left:3px solid var(--accent);padding:2px 0 2px 14px;margin:0;
-    font-size:13.5px;color:var(--text-dim);line-height:1.7;
+    font-size:15px;color:var(--text-dim);line-height:1.7;
   }
   .quote-box b{color:var(--text);}
 
   .event-list{list-style:none;margin:0;padding:0;}
-  .event-list li{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border-soft);font-size:13px;}
+  .event-list li{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border-soft);font-size:14.5px;}
   .event-list li:last-child{border-bottom:none;}
-  .event-list .time{flex:0 0 76px;font-family:var(--font-mono);color:var(--text-faint);font-size:12px;}
+  .event-list .time{flex:0 0 76px;font-family:var(--font-mono);color:var(--text-faint);font-size:13.5px;}
   .event-list .name{color:var(--text);}
-  .event-list .imp{margin-left:auto;font-family:var(--font-mono);font-size:10.5px;color:var(--text-faint);white-space:nowrap;}
+  .event-list .imp{margin-left:auto;font-family:var(--font-mono);font-size:12px;color:var(--text-faint);white-space:nowrap;}
 
-  .holiday-note{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-dim);margin-top:12px;}
+  .holiday-note{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--text-dim);margin-top:12px;}
   .holiday-dot{width:7px;height:7px;border-radius:50%;background:var(--up);}
 
   /* ---------- Levels (BTC support/resistance) ---------- */
   .levels{display:flex;flex-direction:column;gap:6px;}
   .level-row{display:grid;grid-template-columns:70px 1fr auto;align-items:center;gap:10px;}
-  .level-row .lv-label{font-size:11px;color:var(--text-faint);font-family:var(--font-mono);}
+  .level-row .lv-label{font-size:12.5px;color:var(--text-faint);font-family:var(--font-mono);}
   .level-row .lv-bar-track{height:8px;background:var(--border-soft);border-radius:4px;position:relative;}
   .level-row .lv-bar{position:absolute;top:0;bottom:0;left:0;border-radius:4px;}
-  .level-row .lv-price{font-family:var(--font-mono);font-size:13px;font-weight:600;}
+  .level-row .lv-price{font-family:var(--font-mono);font-size:14.5px;font-weight:600;}
   .lv-resistance .lv-bar{background:linear-gradient(90deg,var(--down),transparent);}
   .lv-current .lv-bar{background:var(--accent);}
   .lv-support .lv-bar{background:linear-gradient(90deg,var(--up),transparent);}
@@ -215,17 +215,17 @@
   .deep-grid{display:flex;flex-direction:column;gap:10px;}
   .deep-card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:16px 16px;}
   .deep-card .dh{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
-  .deep-card .dh .ic{font-family:var(--font-mono);font-size:11px;color:var(--bg);background:var(--gold);border-radius:5px;padding:2px 7px;font-weight:700;}
-  .deep-card h3{font-family:var(--font-display);font-size:15px;margin:0;font-weight:600;}
-  .deep-card p{margin:0;font-size:13px;line-height:1.75;color:var(--text-dim);}
+  .deep-card .dh .ic{font-family:var(--font-mono);font-size:12.5px;color:var(--bg);background:var(--gold);border-radius:5px;padding:2px 7px;font-weight:700;}
+  .deep-card h3{font-family:var(--font-display);font-size:16.5px;margin:0;font-weight:600;}
+  .deep-card p{margin:0;font-size:14.5px;line-height:1.75;color:var(--text-dim);}
 
   /* ---------- Disclaimer / footer ---------- */
   .disclaimer{
     margin-top:38px;border:1px solid rgba(255,84,112,0.35);background:rgba(255,84,112,0.06);
-    border-radius:var(--radius);padding:16px;font-size:12px;line-height:1.7;color:var(--text-dim);
+    border-radius:var(--radius);padding:16px;font-size:13.5px;line-height:1.7;color:var(--text-dim);
   }
-  .disclaimer .dt{font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;color:var(--down);margin-bottom:6px;font-weight:600;}
-  footer.site-footer{margin-top:22px;text-align:center;font-family:var(--font-mono);font-size:11px;color:var(--text-faint);padding:0 8px;}
+  .disclaimer .dt{font-family:var(--font-mono);font-size:12.5px;letter-spacing:0.06em;color:var(--down);margin-bottom:6px;font-weight:600;}
+  footer.site-footer{margin-top:22px;text-align:center;font-family:var(--font-mono);font-size:12.5px;color:var(--text-faint);padding:0 8px;}
 </style>
 </head>
 <body>
@@ -280,7 +280,7 @@
     <h2>미국 증시</h2>
     <span class="rule"></span>
   </div>
-  <p style="font-size:12px;color:var(--text-faint);margin:-4px 2px 16px;">2026년 9월 4일(금) 정규장 마감 기준</p>
+  <p style="font-size:13.5px;color:var(--text-faint);margin:-4px 2px 16px;">2026년 9월 4일(금) 정규장 마감 기준</p>
 
   <div class="grid-4">
     <div class="idx-card down">
@@ -343,7 +343,7 @@
         <div class="sector-val down">낙폭 최대</div>
       </div>
     </div>
-    <p style="font-size:11.5px;color:var(--text-faint);margin:12px 2px 0;">8월 비농업고용이 시장 예상(약 5.3만~5.6만 건)의 세 배에 가까운 <b>16만2,000명</b> 증가하며 서프라이즈를 기록, 실업률은 4.1%로 예상에 부합했다. 전날 연준 월러 이사의 비둘기적 발언으로 형성됐던 9월 금리 동결 기대가 하루 만에 뒤집히며 국채금리와 달러가 동반 급등했고, 다우·나스닥·S&amp;P500 3대 지수는 나란히 하락 마감했다. 다만 대형주 약세 속에서도 소형주 중심 러셀2000은 이미 금리 인상 우려를 상당 부분 선반영했다는 평가 속에 나 홀로 강보합을 지켰다. 종목별로는 룰루레몬이 2분기 매출(24.2억 달러)이 컨센서스를 밑돌고 연간 EPS 가이던스를 큰 폭(10.95~11.15달러 → 9.48~9.73달러)으로 하향하며 -17.8% 폭락, 이날 최대 낙폭 종목이 됐다. 신용평가업체 페어아이작(FICO)도 연방주택금융청(FHFA)이 가격 정책을 공개 비판하면서 급락했다. 반면 메모리 반도체인 마이크론·샌디스크는 수급 개선 기대에 강세를 보이며 기술 섹터의 상대적 방어를 이끌었다.</p>
+    <p style="font-size:13px;color:var(--text-faint);margin:12px 2px 0;">8월 비농업고용이 시장 예상(약 5.3만~5.6만 건)의 세 배에 가까운 <b>16만2,000명</b> 증가하며 서프라이즈를 기록, 실업률은 4.1%로 예상에 부합했다. 전날 연준 월러 이사의 비둘기적 발언으로 형성됐던 9월 금리 동결 기대가 하루 만에 뒤집히며 국채금리와 달러가 동반 급등했고, 다우·나스닥·S&amp;P500 3대 지수는 나란히 하락 마감했다. 다만 대형주 약세 속에서도 소형주 중심 러셀2000은 이미 금리 인상 우려를 상당 부분 선반영했다는 평가 속에 나 홀로 강보합을 지켰다. 종목별로는 룰루레몬이 2분기 매출(24.2억 달러)이 컨센서스를 밑돌고 연간 EPS 가이던스를 큰 폭(10.95~11.15달러 → 9.48~9.73달러)으로 하향하며 -17.8% 폭락, 이날 최대 낙폭 종목이 됐다. 신용평가업체 페어아이작(FICO)도 연방주택금융청(FHFA)이 가격 정책을 공개 비판하면서 급락했다. 반면 메모리 반도체인 마이크론·샌디스크는 수급 개선 기대에 강세를 보이며 기술 섹터의 상대적 방어를 이끌었다.</p>
   </div>
 
   <div class="block-title">주요 상승 · 하락 종목</div>
@@ -407,7 +407,7 @@
     <h2>가상화폐</h2>
     <span class="rule"></span>
   </div>
-  <p style="font-size:12px;color:var(--text-faint);margin:-4px 2px 16px;">2026년 9월 7일 오전(KST) 기준 시세</p>
+  <p style="font-size:13.5px;color:var(--text-faint);margin:-4px 2px 16px;">2026년 9월 7일 오전(KST) 기준 시세</p>
 
   <div class="grid-4">
     <div class="idx-card down">
@@ -470,7 +470,7 @@
         <div class="lv-price up">$77,165</div>
       </div>
     </div>
-    <p style="font-size:11.5px;color:var(--text-faint);margin:12px 2px 0;">비트코인은 지난주 4개월 만의 고점 $82,240을 찍은 뒤 $79,730~79,920 구간의 주요 저항 클러스터 바로 아래에서 좁은 박스권 등락을 이어가고 있다. 주말 거래량이 얇아지며 24시간 기준 변동폭은 -0.15%로 사실상 보합 수준이었고, 이 저항대를 뚫지 못하면 $78,800~79,000 전환 구간을 거쳐 핵심 지지인 $77,165까지 되밀릴 가능성이 열려 있다. 14일 RSI는 53.0으로 중립권에 머물러 있어 뚜렷한 방향성 신호는 아직 없는 상태다. BTC 선물 미결제약정은 최근 7일간 -1.64% 줄어들며 공격적인 재레버리지 없이 완만한 디레버리징이 진행 중이고, 9/4 BTC 현물 ETF에는 1억7,500만 달러가 순유입됐지만 전일(9/3) 7억3,100만 달러 대비로는 유입 강도가 크게 둔화됐다. 다음 방향성 촉매는 9월 11일 발표되는 8월 CPI가 될 전망이다.</p>
+    <p style="font-size:13px;color:var(--text-faint);margin:12px 2px 0;">비트코인은 지난주 4개월 만의 고점 $82,240을 찍은 뒤 $79,730~79,920 구간의 주요 저항 클러스터 바로 아래에서 좁은 박스권 등락을 이어가고 있다. 주말 거래량이 얇아지며 24시간 기준 변동폭은 -0.15%로 사실상 보합 수준이었고, 이 저항대를 뚫지 못하면 $78,800~79,000 전환 구간을 거쳐 핵심 지지인 $77,165까지 되밀릴 가능성이 열려 있다. 14일 RSI는 53.0으로 중립권에 머물러 있어 뚜렷한 방향성 신호는 아직 없는 상태다. BTC 선물 미결제약정은 최근 7일간 -1.64% 줄어들며 공격적인 재레버리지 없이 완만한 디레버리징이 진행 중이고, 9/4 BTC 현물 ETF에는 1억7,500만 달러가 순유입됐지만 전일(9/3) 7억3,100만 달러 대비로는 유입 강도가 크게 둔화됐다. 다음 방향성 촉매는 9월 11일 발표되는 8월 CPI가 될 전망이다.</p>
   </div>
 
   <div class="block-title">이슈 심층분석</div>
