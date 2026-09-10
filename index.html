@@ -227,6 +227,17 @@
     border-radius:var(--radius);padding:16px;font-size:15px;line-height:1.7;color:var(--text-dim);
   }
   .disclaimer .dt{font-family:var(--font-mono);font-size:14px;letter-spacing:0.06em;color:var(--down);margin-bottom:6px;font-weight:600;}
+
+  /* ---------- Sources ---------- */
+  .sources{margin-top:14px;}
+  .sources .src-group{margin-bottom:10px;}
+  .sources .src-group:last-child{margin-bottom:0;}
+  .sources .src-label{font-family:var(--font-mono);font-size:13px;letter-spacing:0.06em;color:var(--text-faint);text-transform:uppercase;margin-bottom:5px;}
+  .sources .src-links{display:flex;flex-wrap:wrap;gap:6px 8px;}
+  .sources .src-links a{font-size:14px;color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent-soft);}
+  .sources .src-links a:hover{border-bottom-style:solid;}
+  .sources .src-note{font-size:13px;color:var(--text-faint);margin-top:10px;line-height:1.6;}
+
   footer.site-footer{margin-top:22px;text-align:center;font-family:var(--font-mono);font-size:14px;color:var(--text-faint);padding:0 8px;}
 </style>
 </head>
@@ -501,6 +512,38 @@
     <div class="dt">⚠ DISCLAIMER</div>
     본 리포트는 정보 제공 목적으로 작성되었으며 투자자문이 아닙니다.<br>
     가상화폐는 원금 전액 손실이 가능한 고위험 자산입니다.
+  </div>
+</section>
+
+<!-- ============ 데이터 출처 ============ -->
+<section class="part" id="part-sources">
+  <div class="block-title" style="margin-top:0;">데이터 출처 (교차검증)</div>
+  <div class="panel sources">
+    <div class="src-group">
+      <div class="src-label">미국 증시</div>
+      <div class="src-links">
+        <a href="https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-sept-09-2026" target="_blank" rel="noopener">TheStreet</a>
+        <a href="https://wtop.com/national/2026/09/how-major-us-stock-indexes-fared-wednesday-9-9-2026" target="_blank" rel="noopener">WTOP/AP</a>
+        <a href="https://www.cnbc.com/2026/09/09/oil-prices-today-wti-brent-us-iran-hormuz-attacks.html" target="_blank" rel="noopener">CNBC</a>
+        <a href="https://www.fool.com/coverage/stock-market-today/2026/09/09/stock-market-today-sept-9-meta-surges-over-6-5-on-muse-ai-agent-launch/" target="_blank" rel="noopener">The Motley Fool</a>
+        <a href="https://247wallst.com/investing/2026/09/09/meta-rises-6-as-muse-ai-agent-arrives-with-paid-subscription-tiers-alphabet-falls-2/" target="_blank" rel="noopener">24/7 Wall St.</a>
+        <a href="https://www.kiplinger.com/investing/economy/this-weeks-economic-calendar" target="_blank" rel="noopener">Kiplinger(일정)</a>
+      </div>
+    </div>
+    <div class="src-group">
+      <div class="src-label">가상화폐</div>
+      <div class="src-links">
+        <a href="https://finance.yahoo.com/personal-finance/investing/article/bitcoin-and-ethereum-prices-today-wednesday-september-9-2026-ongoing-escalations-in-the-middle-east-are-keeping-a-lid-on-crypto-112541573.html" target="_blank" rel="noopener">Yahoo Finance</a>
+        <a href="https://www.coindesk.com/daybook-us/2026/09/08/bitcoin-etfs-are-still-usd1-billion-shy-of-breaking-even-in-2026" target="_blank" rel="noopener">CoinDesk</a>
+        <a href="https://www.tftc.io/bitcoin-etf-flows/september-2026" target="_blank" rel="noopener">TFTC(ETF 자금흐름)</a>
+        <a href="https://www.theblock.co/news/markets/2026-09-03-bitcoin-gold-correlation-hits-six-year-high-but-analysts-question-whether-equity-decoupling-will-last-413437" target="_blank" rel="noopener">The Block</a>
+        <a href="https://www.coingecko.com/en/coins/zcash" target="_blank" rel="noopener">CoinGecko</a>
+        <a href="https://coinmarketcap.com/currencies/zcash/" target="_blank" rel="noopener">CoinMarketCap</a>
+        <a href="https://www.coinbase.com/price/zcash" target="_blank" rel="noopener">Coinbase</a>
+        <a href="https://cryptoticker.io/en/solana-transaction-format-v1-upgrade-september/" target="_blank" rel="noopener">cryptoticker.io</a>
+      </div>
+    </div>
+    <p class="src-note">각 수치는 위 복수 출처를 교차확인해 서로 다른 값이 나올 경우 일치하는 구간(레인지) 또는 보수적인 값을 채택했습니다. 크립토 시세·OI·청산 규모·공포탐욕지수 등은 집계기관·조회 시점에 따라 실제 거래소 고시가와 오차가 있을 수 있으니 매매 판단에는 반드시 거래소 실시간 시세를 재확인하세요.</p>
   </div>
 </section>
 
