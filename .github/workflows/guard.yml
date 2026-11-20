@@ -9,7 +9,7 @@ jobs:
   guard:
     runs-on: ubuntu-latest
     steps:
-      - name: 변경 파일·위험 패턴 검사
+      - name: 변경 파일·위험 패턴·보안 영역 검사
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
@@ -18,6 +18,7 @@ jobs:
           HEAD: ${{ github.event.pull_request.head.sha }}
         run: |
           set -euo pipefail
+          # PR 코드는 실행하지 않고, API로 파일 내용만 받아서 비교합니다.
           files=$(gh api "repos/$REPO/pulls/$PR/files" --paginate --jq '.[].filename')
           echo "변경 파일: $files"
           if [ "$files" != "index.html" ]; then
@@ -25,14 +26,36 @@ jobs:
           fi
           gh api "repos/$REPO/contents/index.html?ref=$BASE" -H "Accept: application/vnd.github.raw" > base.html
           gh api "repos/$REPO/contents/index.html?ref=$HEAD" -H "Accept: application/vnd.github.raw" > head.html
-          # 출처 링크는 매일 바뀌므로, 정해진 안전한 형태의 <a>만 허용하고 개수 검사에서 제외
-          SAFE_A='<a href="https://[^"<>[:space:]]+" target="_blank" rel="noopener">'
-          for f in base head; do sed -E "s#${SAFE_A}#<a>#g" $f.html > $f.stripped; done
-          fail=0
-          for pat in '<script' '<iframe' '<object' '<embed' '<form' 'javascript:' 'data:text' '[[:space:]]on[a-z]+[[:space:]]*=' 'https?://' '<a[[:space:]]'; do
-            b=$( (grep -oiE "$pat" base.stripped || true) | wc -l)
-            h=$( (grep -oiE "$pat" head.stripped || true) | wc -l)
-            echo "$pat  main=$b  PR=$h"
-            if [ "$h" -gt "$b" ]; then echo "::error::'$pat' 가 새로 추가됨 ($b → $h)"; fail=1; fi
-          done
-          [ "$fail" -eq 0 ] && echo "통과" || exit 1
+          python3 - base.html head.html <<'PY'
+          import re, sys, collections
+          base = open(sys.argv[1], encoding="utf-8").read()
+          head = open(sys.argv[2], encoding="utf-8").read()
+          errs = []
+          def headpart(s): return s.split("</head>", 1)[0]
+          def scripts(s): return re.findall(r"<script\b[^>]*>(.*?)</script>", s, re.S | re.I)
+          SAFE_A = re.compile(r'<a href="https://[^"<>\s]+" target="_blank" rel="noopener">')
+          # 1) <head> 전체는 그대로
+          if headpart(base) != headpart(head):
+              errs.append("<head> 영역이 바뀜 (CSP·메타태그·외부 링크는 변경 금지)")
+          # 2) <script>는 내용까지 그대로
+          if scripts(base) != scripts(head):
+              errs.append("<script> 내용이 바뀜 (이 페이지는 스크립트 변경 금지)")
+          # 3) 출처 링크(안전한 <a>)는 '데이터 출처' 섹션 안에서만 허용
+          idx = head.find('id="part-sources"')
+          for m in SAFE_A.finditer(head):
+              if idx == -1 or m.start() < idx:
+                  errs.append("데이터 출처 섹션 밖의 링크: " + m.group(0)[:100])
+          # 4) 안전한 <a>를 뺀 나머지에서 위험 패턴·<a> 증가 금지, 새 URL 추가·바꿔치기 금지(삭제는 허용)
+          sb, sh = SAFE_A.sub("<a>", base), SAFE_A.sub("<a>", head)
+          for pat in [r"<script", r"<iframe", r"<object", r"<embed", r"<form", r"<img", r"javascript:", r"data:text", r"\son[a-z]+\s*=", r"<a\s"]:
+              nb, nh = len(re.findall(pat, sb, re.I)), len(re.findall(pat, sh, re.I))
+              if nh > nb: errs.append(f"'{pat}' 증가 ({nb} → {nh})")
+          urls = lambda s: collections.Counter(re.findall(r"https?://[^\s\"'<>)]+", s))
+          added = urls(sh) - urls(sb)
+          if added:
+              errs.append(f"출처 링크 외 새 URL 추가(바꿔치기 포함): {sorted(added.elements())[:5]}")
+          if errs:
+              for e in errs: print("::error::" + e)
+              sys.exit(1)
+          print("통과")
+          PY
