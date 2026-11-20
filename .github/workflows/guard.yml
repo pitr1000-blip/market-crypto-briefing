@@ -1,0 +1,38 @@
+name: guard
+on:
+  pull_request_target:
+    branches: [main]
+permissions:
+  contents: read
+  pull-requests: read
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 변경 파일·위험 패턴 검사
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          files=$(gh api "repos/$REPO/pulls/$PR/files" --paginate --jq '.[].filename')
+          echo "변경 파일: $files"
+          if [ "$files" != "index.html" ]; then
+            echo "::error::index.html 외 파일이 변경됨: $files"; exit 1
+          fi
+          gh api "repos/$REPO/contents/index.html?ref=$BASE" -H "Accept: application/vnd.github.raw" > base.html
+          gh api "repos/$REPO/contents/index.html?ref=$HEAD" -H "Accept: application/vnd.github.raw" > head.html
+          # 출처 링크는 매일 바뀌므로, 정해진 안전한 형태의 <a>만 허용하고 개수 검사에서 제외
+          SAFE_A='<a href="https://[^"<>[:space:]]+" target="_blank" rel="noopener">'
+          for f in base head; do sed -E "s#${SAFE_A}#<a>#g" $f.html > $f.stripped; done
+          fail=0
+          for pat in '<script' '<iframe' '<object' '<embed' '<form' 'javascript:' 'data:text' '[[:space:]]on[a-z]+[[:space:]]*=' 'https?://' '<a[[:space:]]'; do
+            b=$( (grep -oiE "$pat" base.stripped || true) | wc -l)
+            h=$( (grep -oiE "$pat" head.stripped || true) | wc -l)
+            echo "$pat  main=$b  PR=$h"
+            if [ "$h" -gt "$b" ]; then echo "::error::'$pat' 가 새로 추가됨 ($b → $h)"; fail=1; fi
+          done
+          [ "$fail" -eq 0 ] && echo "통과" || exit 1
